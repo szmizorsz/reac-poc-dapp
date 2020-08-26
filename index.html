@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Real estate management platform</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./web3.min.js"></script>
+    <script type="text/javascript" src="./abi.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">Real estate management platform</h1>
+      </div>
+    </div>
+    <div class="container">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="true">Register</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="false">List</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="promote-tab" data-toggle="tab" href="#promote" role="tab" aria-controls="promote" aria-selected="false">Promote</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="sell-tab" data-toggle="tab" href="#sell" role="tab" aria-controls="sell" aria-selected="false">Sell</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="register" role="tabpanel" aria-labelledby="register-tab">
+          <br/>
+          <div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" id="proprietor_input" placeholder="Proprietor">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" id="external_id_input" placeholder="External identifer">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" id="type_input" placeholder="Type">
+            </div>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" id="latitude_input" placeholder="Latitude">
+            </div>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" id="longitude_input" placeholder="Longitude">
+            </div>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" id="height_input" placeholder="Height">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" id="country_input" placeholder="Country">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" id="city_input" placeholder="City">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" id="address_input" placeholder="Address">
+            </div>
+            <button type="button" id="register_button" class="btn btn-primary">Register</button>
+            <div>
+              <span id="registration_result_output"></span> <br/>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="list" role="tabpanel" aria-labelledby="list-tab">
+          <br/>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Proprietor</th>
+                <th scope="col">External Id</th>
+                <th scope="col">Type</th>
+                <th scope="col">Country</th>
+                <th scope="col">City</th>
+                <th scope="col">Address</th>
+              </tr>
+            </thead>
+            <tbody id="real_estate_table_body">
+            </tbody>
+          </table>          
+        </div>
+        <div class="tab-pane fade" id="promote" role="tabpanel" aria-labelledby="promote-tab">...</div>
+        <div class="tab-pane fade" id="sell" role="tabpanel" aria-labelledby="sell-tab">...</div>
+      </div> 
+    </div>
+
+  </body>
+</html>
