@@ -58,6 +58,25 @@ var abi = [
       "anonymous": false,
       "inputs": [
         {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
           "indexed": false,
           "internalType": "uint256",
           "name": "id",
@@ -72,49 +91,7 @@ var abi = [
         {
           "indexed": false,
           "internalType": "string",
-          "name": "externalId",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "realEstateType",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "latitude",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "longitude",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "height",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "country",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "city",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "addressLine",
+          "name": "tokenURI",
           "type": "string"
         }
       ],
@@ -199,20 +176,6 @@ var abi = [
       "constant": true
     },
     {
-      "inputs": [],
-      "name": "coordinate_decimals",
-      "outputs": [
-        {
-          "internalType": "uint8",
-          "name": "",
-          "type": "uint8"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
       "inputs": [
         {
           "internalType": "uint256",
@@ -276,7 +239,7 @@ var abi = [
       "name": "owner",
       "outputs": [
         {
-          "internalType": "address payable",
+          "internalType": "address",
           "name": "",
           "type": "address"
         }
@@ -304,6 +267,13 @@ var abi = [
       "stateMutability": "view",
       "type": "function",
       "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
       "inputs": [
@@ -514,41 +484,11 @@ var abi = [
       "inputs": [
         {
           "internalType": "address",
-          "name": "proprietor",
+          "name": "newOwner",
           "type": "address"
-        },
-        {
-          "internalType": "string",
-          "name": "_externalId",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_realEstateType",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256[3]",
-          "name": "coordinates",
-          "type": "uint256[3]"
-        },
-        {
-          "internalType": "string",
-          "name": "_country",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_city",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_addressLine",
-          "type": "string"
         }
       ],
-      "name": "registerRealEstate",
+      "name": "transferOwnership",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -556,77 +496,20 @@ var abi = [
     {
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        }
-      ],
-      "name": "getRealEstatBaseDataById",
-      "outputs": [
-        {
-          "internalType": "string",
+          "internalType": "address",
           "name": "proprietor",
-          "type": "string"
+          "type": "address"
         },
         {
           "internalType": "string",
-          "name": "externalId",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "realEstateType",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "country",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "city",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "addressLine",
+          "name": "tokenURI",
           "type": "string"
         }
       ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        }
-      ],
-      "name": "getRealEstateCoordinatesById",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "latitude",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "longitude",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "height",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "name": "registerRealEstate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
       "inputs": [],

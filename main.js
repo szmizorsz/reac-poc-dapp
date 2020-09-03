@@ -1,5 +1,8 @@
+const IpfsHttpClient = require('ipfs-http-client')
+const ipfs = IpfsHttpClient({host: 'ipfs.infura.io', port: '5001', protocol: 'https'})
+
 var web3 = new Web3(Web3.givenProvider);
-var contractAddress = "0x89B9A346A17e93cA530e564Df86dE52c0ed79CD7";
+var contractAddress = "0x9D61F1DFa764a4cAd11ddFDb3aF7Ffa2ea96A8D0";
 var contractInstance;
 
 $(document).ready(function() {
@@ -11,56 +14,55 @@ $(document).ready(function() {
     $("#list-tab").on('shown.bs.tab', list_real_estates);
 });
 
-function RealEstateBase(proprietor, externalId, realEstateType, country, city, addressLine) {
-	this.proprietor = proprietor;
-	this.externalId = externalId;
-	this.realEstateType = realEstateType;
-	this.country = country;
-	this.city = city;
-	this.addressLine = addressLine;
-}
-
 function register_real_estate(){
 	var proprietor = $("#proprietor_input").val();
-	var externalId = $("#external_id_input").val();
-	var type = $("#type_input").val();
-	var latitude = $("#latitude_input").val();
-	var longitude = $("#longitude_input").val();
-	var height = $("#height_input").val();
-	var coordinates = [latitude, longitude, height];
-	var country = $("#country_input").val();
-	var city = $("#city_input").val();
-	var addressLine = $("#address_input").val();
-
-	var config = {
-		gas: 6721975
+	let jsonData = {
+		"proprietor": proprietor,
+		"externalId": $("#external_id_input").val(),
+		"type": $("#type_input").val(),
+		"latitude": $("#latitude_input").val(),
+		"longitude": $("#longitude_input").val(),
+		"height": $("#height_input").val(),
+		"country": $("#country_input").val(),
+		"city": $("#city_input").val(),
+		"addressLine": $("#address_input").val()
 	}
-	contractInstance.methods.registerRealEstate(proprietor, externalId, type, coordinates, country, city, addressLine).send(config)
-	.on("transactionHash", function(transactionHash){
-		console.log(transactionHash);
-	})
-	.on("confirmation", function(confirmationNr){
-		console.log(confirmationNr);
-	})
-	.on("receipt", function(receipt){
-		$("#registration_result_output").text("Real estate successfully registered!");
-		console.log(receipt);
-	})
+	ipfs.add(Buffer.from(JSON.stringify(jsonData))).then(function(value) {
+		var config = {
+			gas: 6721975
+		}
+		contractInstance.methods.registerRealEstate(proprietor, value[0].hash).send(config)
+		.on("transactionHash", function(transactionHash){
+			console.log(transactionHash);
+		})
+		.on("confirmation", function(confirmationNr){
+			console.log(confirmationNr);
+		})
+		.on("receipt", function(receipt){
+			$("#registration_result_output").text("Real estate successfully registered!");
+			console.log(receipt);
+		});
+
+  	});
 }
 
 function list_real_estates(){
 	$("#real_estate_table_body").empty();
 	contractInstance.methods.totalSupply().call().then(function(totalSupplyResult) {
-		for (i = 1; i <= totalSupplyResult; i++) {
-			contractInstance.methods.getRealEstatBaseDataById(i).call().then(function(realEstateResult) {
-				$('#real_estate_table_body').append(
-			    	'<tr><td>' + realEstateResult.proprietor + '</td><td>' 
-			    	+ realEstateResult.externalId + '</td><td>' 
-			    	+ realEstateResult.realEstateType + '</td><td>' 
-			    	+ realEstateResult.country + '</td><td>' 
-			    	+ realEstateResult.city + '</td><td>' 
-			    	+ realEstateResult.addressLine + '</td></tr>');
-			})		  			
+		for (let i = 1; i <= totalSupplyResult; i++) {
+			contractInstance.methods.tokenURI(i).call().then(function(tokenURI) {
+				ipfs.cat(tokenURI, function (err, file) {
+				    if(err) throw err;
+				    let jsonData = JSON.parse(file);
+				    $('#real_estate_table_body').append(
+				    	'<tr><td>' + jsonData.proprietor + '</td><td>' 
+				    	+ jsonData.externalId + '</td><td>' 
+				    	+ jsonData.type + '</td><td>' 
+				    	+ jsonData.country + '</td><td>' 
+				    	+ jsonData.city + '</td><td>' 
+				    	+ jsonData.addressLine + '</td></tr>');
+				});
+			})
 		}
 	})
 }

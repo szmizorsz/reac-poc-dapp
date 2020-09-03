@@ -16,48 +16,22 @@ contract("RealEstateRepository", async function(accounts){
 
 	it("should register real estate", async function() {
 		let proprietor = accounts[1];
-		let externalId = "123";
-		let realEstateType = "apartment";
-		let latitude = 123123123;
-		let longitude = 234234234;
-		let height = 111111111;
-		let coordinates = [latitude, longitude, height];
-		let country = "Hungary";
-		let city = "Velence";
-		let addressLine = "Enyedi utca 25";
-		let result = await instance.registerRealEstate(proprietor, externalId, realEstateType, coordinates, country, city, addressLine);
+		let tokenURI = "QmVB3rL9ZCk8SYvsMRiTERkeU4AYExui2tLZ6iiqEhKAMe";
+		let result = await instance.registerRealEstate(proprietor, tokenURI);
 		truffleAssert.eventEmitted(result, 'RealEstateRegistration');
 		truffleAssert.eventEmitted(result, 'RealEstateRegistration', (e) => {
-					return e.proprietor === accounts[1]
-                        && e.externalId === "123"
-                        && e.realEstateType === "apartment"
-                        && e.latitude.toNumber() === 123123123
-                        && e.longitude.toNumber() === 234234234
-                        && e.height.toNumber() === 111111111
-                        && e.country === "Hungary"
-                        && e.city === "Velence"
-                        && e.addressLine === "Enyedi utca 25";
+					return e.id.toNumber() === 1
+						&& e.proprietor === accounts[1]
+                        && e.tokenURI === "QmVB3rL9ZCk8SYvsMRiTERkeU4AYExui2tLZ6iiqEhKAMe";
                 }, 'event params incorrect');
 	});
 
 	it("should return the registered real estate by id", async function() {
 		let proprietor = accounts[0];
-		let externalId = "123";
-		let realEstateType = "apartment";
-		let latitude = 123123123;
-		let longitude = 234234234;
-		let height = 111111111;
-		let coordinates = [latitude, longitude, height];
-		let country = "Hungary";
-		let city = "Velence";
-		let addressLine = "Enyedi utca 25";
-		await instance.registerRealEstate(proprietor, externalId, realEstateType, coordinates, country, city, addressLine);
-		let realEstate = await instance.getRealEstatBaseDataById(1);
-		assert(realEstate.realEstateType === realEstateType);
-		assert(realEstate.externalId === externalId);
-		assert(realEstate.country === country);
-		assert(realEstate.city === city);
-		assert(realEstate.addressLine === addressLine);
+		let tokenURI = "QmVB3rL9ZCk8SYvsMRiTERkeU4AYExui2tLZ6iiqEhKAMe";
+		await instance.registerRealEstate(proprietor, tokenURI);
+		let tokenURIRegistered = await instance.tokenURI(1);
+		assert(tokenURIRegistered === "QmVB3rL9ZCk8SYvsMRiTERkeU4AYExui2tLZ6iiqEhKAMe");
 	});
 
 });
